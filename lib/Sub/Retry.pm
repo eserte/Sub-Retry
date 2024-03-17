@@ -60,7 +60,9 @@ Sub::Retry - retry $n times
     my $ua = LWP::UserAgent->new();
     my $res = retry 3, 1, sub {
         my $n = shift;
-        $ua->post('http://example.com/api/foo/bar');
+        my $res = $ua->post('http://example.com/api/foo/bar');
+        die $res->dump if !$res->is_success;
+        $res;
     };
 
 =head1 DESCRIPTION
